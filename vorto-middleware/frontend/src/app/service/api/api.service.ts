@@ -2,13 +2,14 @@ import { delay, map, catchError, retryWhen, mergeMap } from 'rxjs/operators';
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { of, EMPTY, Observable, throwError, BehaviorSubject } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { Plugin } from 'src/app/model/plugin';
 
 
-export const apiBaseURL = environment.apiBaseUrl
+//export const apiBaseURL = 'http://localhost:8080/api/v1'
+export const apiBaseURL = 'http://vorto-normalizer-dev.eu-central-1.elasticbeanstalk.com:8080/api/v1'
 
-// const username = 'admin'
-// const password = 'secret'
+const username = 'admin'
+const password = 'secret'
 
 const DEFAULT_MAX_RETRIES = 5
 
@@ -47,7 +48,7 @@ export class APIService {
 
   public getPlugins() {
     return this.http
-      .get(apiBaseURL + '/api/v1' + '/plugins', httpOptions)
+      .get(apiBaseURL + '/plugins', httpOptions)
       .pipe(
         delayedRetry(1000, 3),
         catchError(error => {
@@ -63,7 +64,7 @@ export class APIService {
 
   public getMappings() {
     return this.http
-      .get(apiBaseURL + '/api/v1' + '/mappings', httpOptions)
+      .get(apiBaseURL + '/mappings', httpOptions)
       .pipe(
         delayedRetry(1000, 3),
         catchError(error => {
